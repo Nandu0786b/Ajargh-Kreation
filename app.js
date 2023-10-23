@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 
 // routes
 import user from "./routes/userAuth.js";
+import journal from "./routes/journal.js";
 
 // express app 
 const app = express();
@@ -26,6 +27,7 @@ app.disable("x-powered-by");  //To hide backend stack from the hacker's
 
 // routes, Used v1 to track the version
 app.use("/v1/user", user); 
+app.use("/v1/journal", journal);
 
 
 
