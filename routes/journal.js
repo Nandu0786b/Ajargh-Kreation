@@ -9,9 +9,8 @@ const router = express.Router();
 
 // Post routes
 router.post("/create",rateLimit.idLimit,jwtToken, journal.createjournal);
-
+router.post("/delete",rateLimit.idLimit,jwtToken,journal.deletejournal);
 // get routes
 router.get("/history",rateLimit.idLimit,jwtToken, journal.alljournal);
-
 
 export default router;
