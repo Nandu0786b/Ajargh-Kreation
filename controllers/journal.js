@@ -60,3 +60,31 @@ export const createjournal = async(req,res)=>{
             message:"Internal Server Problem"})
     }
 }
+
+export const alljournal = async(req,res)=>{
+    try {
+        const _id = req._id;
+        const userjournal = await journalModel.find({user:_id});
+        if(!userjournal){
+            return res.status(400).json({
+                stat:"OK",
+                error: "",
+                Verified:true,
+                message:"Not found anything"
+            })
+        }
+        return res.status(200).json({
+            stat:"OK",
+            error: "",
+            Verified:true,
+            message:"found Journal success",
+            journal:userjournal
+        })
+    } catch (error) {
+        return res.status(500).json({
+            stat:OK,
+            Error:error.message,
+            Verified:true,
+            message:"Internal Server Problem"})
+    }
+}
