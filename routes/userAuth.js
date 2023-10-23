@@ -7,6 +7,8 @@ const router = express.Router();
 
 // Post routes
 router.post("/register",rateLimit.ipLimit, auth.register);
+router.post("/login",rateLimit.ipLimit, auth.login);
+
 
 
 
