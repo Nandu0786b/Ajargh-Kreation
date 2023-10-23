@@ -9,7 +9,9 @@ const router = express.Router();
 router.post("/register",rateLimit.ipLimit, auth.register);
 router.post("/login",rateLimit.ipLimit, auth.login);
 
-
+// Protected route
+// get routes
+router.get("/profile",rateLimit.idLimit,jwtToken,auth.profile);
 
 
 export default router;
