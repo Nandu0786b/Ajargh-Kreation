@@ -1,0 +1,6 @@
+# Exclude development-specific files
+.git
+.gitignore
+.vscode
+node_modules
+
