@@ -31,3 +31,24 @@ export const ipLimit = async (req, res, next)=>{
         return res.status(500).json({"stat":"Ok","error":"","Verified":"false","Message":"Internal Server Problem"});
     }
 }
+
+export const idLimit = async (req, res, next)=>{
+    try {
+        // const token = req.cookies.jwt;
+        const token = req.headers.jwt;
+        const requests = await Redis.incr(token);
+        console.log("ip is ", token);
+        let ttl;
+        if(requests === 1){
+            ttl = await Redis.expire(token, 60);
+        }
+        if(requests>10){
+        ttl = await Redis.ttl(token);
+        return  res.status(400).json({"stats" : "ok", "limit" : "Max Api rate Limit hit","Api Calls":requests,"WaitTime":ttl,"Message":"Wait for dool down preiod"})
+        }
+        next()
+    } catch (error) {
+        console.log(error.Message)
+        return res.status(500).json({"stat":"Ok","error":"","Verified":"false","Message":"Internal Server Problem"});
+    }
+}
