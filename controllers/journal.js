@@ -134,3 +134,52 @@ export const deletejournal = async (req, res) => {
         });
     }
 }
+export const sharejournal = async (req, res) => {
+    try {
+        // Extract the journalId from the request body
+        const journalId  = req.body._id;
+
+        // Check if journalId is provided
+        if (!journalId) {
+            return res.status(400).json({
+                stat: "OK",
+                error: "Missing journalId",
+                Verified: true,
+                message: "Please provide journalId to generate Sharing Token"
+            });
+        }
+
+        // Find and delete the journal by ID
+        const Findjournal = await journalModel.findOne({ _id: journalId, user: req._id });
+
+
+        if (!Findjournal) {
+            // If no journal was found to delete
+            return res.status(404).json({
+                stat: "OK",
+                error: "journal not found",
+                Verified: true,
+                message: "No journal found with the specified journalId"
+            });
+        }
+        const sharedToken = jwt.sign({ id: journalId }, process.env.JWT_SECRET, {
+            expiresIn: '30m', // 30 minutes
+          });
+        // Return the shared journal token
+        return res.status(200).json({
+            stat: "OK",
+            error: "",
+            Verified: true,
+            message: "This Link is Valid for the 30 MINUTES Only",
+            journal: Findjournal,
+            sharedToken: sharedToken
+        });
+    } catch (error) {
+        return res.status(500).json({
+            stat: "OK",
+            Error: error.message,
+            Verified: true,
+            message: "Internal Server Problem"
+        });
+    }
+}

@@ -10,6 +10,7 @@ const router = express.Router();
 // Post routes
 router.post("/create",rateLimit.idLimit,jwtToken, journal.createjournal);
 router.post("/delete",rateLimit.idLimit,jwtToken,journal.deletejournal);
+router.post("/share",rateLimit.idLimit,jwtToken, journal.sharejournal);
 // get routes
 router.get("/history",rateLimit.idLimit,jwtToken, journal.alljournal);
 
