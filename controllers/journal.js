@@ -183,3 +183,49 @@ export const sharejournal = async (req, res) => {
         });
     }
 }
+
+export const sharedjournal = async (req, res) => {
+    try {
+        // Extract the journalId from the request 
+        const journalId  = req._id;
+
+        // Check if journalId is provided
+        if (!journalId) {
+            return res.status(400).json({
+                stat: "OK",
+                error: "Missing journalId",
+                Verified: true,
+                message: "Please provide journalId to view the journal"
+            });
+        }
+
+        // Find  the journal by ID
+        const Findjournal = await journalModel.findOne({ _id: journalId});
+
+
+        if (!Findjournal) {
+            // If no journal was found to view
+            return res.status(404).json({
+                stat: "OK",
+                error: "journal not found",
+                journalId: journalId,
+                Verified: true,
+                message: "No journal found with the specified journalId"
+            });
+        }
+        return res.status(200).json({
+            stat: "OK",
+            error: "",
+            Verified: true,
+            message: "Journal Found Success",
+            journal: Findjournal,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            stat: "OK",
+            Error: error.message,
+            Verified: true,
+            message: "Internal Server Problem"
+        });
+    }
+}

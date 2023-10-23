@@ -13,5 +13,6 @@ router.post("/delete",rateLimit.idLimit,jwtToken,journal.deletejournal);
 router.post("/share",rateLimit.idLimit,jwtToken, journal.sharejournal);
 // get routes
 router.get("/history",rateLimit.idLimit,jwtToken, journal.alljournal);
+router.get("/shared",rateLimit.ipLimit,SharedJwtToken, journal.sharedjournal);
 
 export default router;
